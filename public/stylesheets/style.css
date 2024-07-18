@@ -1,0 +1,168 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    height: 5rem;
+    background-color: white;
+   
+}
+
+
+.navbar-nav {
+        align-items: center;
+    
+}
+
+/* .navbar-nav a:hover {
+   text-decoration: underline;
+   scale: 1s;
+
+} */
+
+
+
+.fa-compass{
+    color: rgb(174, 70, 70);
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #222222 !important;
+    width: 100%;
+}
+
+.f-info {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    height: 7em;
+    background-color: #ebebeb;
+    display: flex; 
+    flex-direction: column;    
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    justify-items: center;
+}
+
+.f-info-socials {
+    width: 100%;
+    
+}
+
+html, body {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    flex: 1;
+}
+
+.container {
+    flex: 1;
+}
+
+.btn-clr {
+    background-color: rgb(185, 42, 42) !important;
+    border: none !important;
+}
+
+footer {
+    width: 100%;
+}
+
+
+.f-info-socials i {
+    padding-right: 1rem;
+    font-size: 1.5rem;
+}
+
+.f-info-links a{
+    width: 100%;
+    text-decoration: none;
+    color: #222222 !important;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+/* Cards */
+.card {
+    border: none !important;
+    border-bottom : 2rem;
+   
+}
+
+/* .card:hover .listing-linkk{
+    transform: rotateY('-180deg');
+} */
+
+.card-img-top {
+    width: 100% !important;
+    border-radius: 1rem  !important;
+    object-fit: cover !important;
+
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-text p {
+    font-weight: 400;
+}
+
+.listing-link {
+    text-decoration: none !important;
+}
+
+.listing-link:hover {
+    /* transform: scale(1.05) ease-in; */
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.listing-linkk {
+    /* transform: scale(1.05) ease-in; */
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background: white;
+    transform: scale(1.1);
+}
+
+/* show page */
+.show-img {
+    height: 30vh;
+}
+
+.btn {
+    background-color: rgb(214, 69, 69) !important;
+    height: 5vh !important;
+    width: 10vh !important;
+}
+
+.btndiv {
+    display: flex;
+    gap: 2vh;
+}

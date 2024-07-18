@@ -1,0 +1,57 @@
+<% layout("/layouts/boilerplate") %>
+
+    <body>
+        <div class="row mt-3">
+            <div class="col-8 offset-2">
+                
+                <h3>Create a new Listing</h3>
+                <br />
+        
+        <form method="post" action="/listings">
+
+            <div class="mb-3">
+                <lable for="Title" class="form-lable">Title</lable>
+            <input type="text" name="listing[title]" placeholder="add your title" class="form-control" required />
+            <br />
+            </div>
+
+            <div class="mb-3">
+                <lable for="Description" class="form-lable">description</lable>
+            <textarea type="text" name="listing[description]" class="form-control" placeholder="enter description"
+                required></textarea>
+            <br />
+            </div>
+
+           <div class="mb-3">
+            <lable for="Image" class="form-lable">Image</lable>
+            <input type="text" name="listing[image]" class="form-control" placeholder="enter img url" />
+            <br />
+           </div>
+
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <lable for="Price" class="form-lable">Price</lable>
+                <input type="number" name="listing[price]" class="form-control" placeholder="enter price" />
+                <br />
+                </div>
+    
+                <div class="mb-3 col-md-8">
+                    <lable for="Location" class="form-lable">location</lable>
+                <input type="text" name="listing[location]" class="form-control" placeholder="enter location" />
+                <br />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <lable for="Country" class="form-lable">country</lable>
+            <input type="text" name="listing[country]" class="form-control" placeholder="enter country" />
+            <br /><br />
+            </div>
+
+            <button type="submit" class="btn btn-dark btn-clr">Add</button>
+        </form>
+    </body>
+
+            </div>
+        </div>
+    </html>
