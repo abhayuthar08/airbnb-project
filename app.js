@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Listing = require('./models/listing.js');
+const Review = require('./models/review.js');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 
@@ -81,7 +82,54 @@ app.delete('/listings/:id' , async (req, res) => {
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing); 
         res.redirect('/listings'); 
-})
+});
+
+//Reviews Route
+//Post
+// app.post('/listings/:id/reviews', async (req, res) => {
+//     let listing = Listing.findById(req.params.id);
+//     let newReview = new Review(req.body.review);
+
+//     listing.reviews.push(newReview);
+    
+//     await newReview.save();
+//     await listing.save();
+
+//     console.log("new review saved");
+//     res.send("new review saved");
+    
+
+
+// })
+
+app.post('/listings/:id/reviews', async (req, res) => {
+    try {
+        const listingId = req.params.id;
+        const newReview = new Review(req.body);
+        await newReview.save();
+
+        const listing = await Listing.findById(listingId).populate('reviews');
+
+        if (!listing) {
+            return res.status(404).send('Listing not found');
+        }
+
+        // Ensure the reviews array is initialized
+        if (!Array.isArray(listing.reviews)) {
+            listing.reviews = [];
+        }
+
+        listing.reviews.push(newReview);
+        await listing.save();
+
+        res.redirect(`/listings/${listing.id}`)
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong');
+    }
+});
+
+
 
 
 
