@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Listing = require('./models/listing.js');
+const Review = require('./models/review.js');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync.js')
@@ -117,7 +118,36 @@ app.use((err,req,res,next) => {
     res.status(statusCode).render("error.ejs" , {message});
 });
 
+//Reveiw Route
+//Post Route
+// app.post('/listings/:id/reviews' , async (req, res) => {
+//    let listing = await Listing.findById(req.params.id);
+//    let newReview = new Review(req.body.review);
 
+//    listing.reviews.push(newReview);
+
+//    await newReview.save();
+//    await listing.save();
+
+//    console.log("new review saved");
+//    res.send("yes");
+// });
+
+app.post('/listings/:id/reviews', wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    if (!listing) {
+        throw new ExpressError(404, "Listing not found");
+    }
+    const newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+    console.log(newReview);
+    res.redirect(`/listings/${id}` , {reviews});
+}));
+
+// Error handling for 404 and other errors
 
 // Update Route
 // app.put('/listings/:id', async (req, res) => {
