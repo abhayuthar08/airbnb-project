@@ -48,6 +48,24 @@
         </form>
     </div>
 
+     
+    <div class="col-8 offset-3"><br /><hr /><br />
+        <h4><b>Leave a Review</b></h4>
+        <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
+            <div> <br />
+                <label for="rating"  class="form-lable" >Rating</label>
+                <input type="range" min="1" max="5" id="rating"  name="review[rating]" class="form-range">
+            </div>
+            <div> <br />
+                <label for="comment"  class="form-lable" >Comment</label>
+                <textarea name="reviews[comment]" rows="5" class="form-control" id="comment" required></textarea>
+                <div class="invalid-feedback">please enter suitable comment...</div>
+            </div><br />
+
+            <button class="btn btn-dark btns">Submit</button><br /><br />
+        </form>
+    </div>
+
            
     </div>
 </body>
