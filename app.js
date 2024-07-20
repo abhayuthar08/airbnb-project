@@ -2,11 +2,9 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Listing = require('./models/listing.js');
+const Review = require('./models/review.js');
 const path = require('path');
 const ejsMate = require('ejs-mate');
-const wrapAsync = require('./utils/wrapAsync.js')
-const ExpressError = require('./utils/ExpressError.js')
-const {listingSchema} = require('./views/includes/schema.js')
 
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, 'views'));
@@ -33,26 +31,15 @@ async function main() {
     await mongoose.connect(MONGO_URL);
 }
 
-const validateListing = (req , res, next) => {
-    let { error } = listingSchema.validate(req.body);
-    console.log(error);
-    if(error) {
-        throw new ExpressError(400, error);
-    }
-    else {
-        next();
-    }
-}
-
 app.get('/', (req, res) => {
     res.send("working");
 });
 
 // Index Route
-app.get('/listings', wrapAsync ( async (req, res) => {
+app.get('/listings', async (req, res) => {
     const allListings = await Listing.find({});
     res.render("listings/index", { allListings });
-}));
+});
 
 // New Route
 app.get('/listings/new', (req, res) => {
@@ -60,62 +47,89 @@ app.get('/listings/new', (req, res) => {
 });
 
 // Show Route
-app.get('/listings/:id', wrapAsync ( async (req, res) => {
+app.get('/listings/:id', async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/show", { listing });
-}));
+});
 
 
 //Create Route
-app.post('/listings', validateListing , wrapAsync  (async (req, res) => {
-    if(!req.body.listing) {
-        throw new ExpressError(400 , "Send a valid data for listing")
-    }
+app.post('/listings', async (req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     console.log(newListing);
     res.redirect('/listings');
-}));
+});
 
 //Edit Route
-app.get('/listings/:id/edit', wrapAsync ( async (req, res) => {
-   
+app.get('/listings/:id/edit', async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/edit.ejs", { listing });
-   
-}));
+});
 
 // Update Route
-app.put('/listings/:id', validateListing ,  wrapAsync (async (req, res) => {
+app.put('/listings/:id', async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     res.redirect(`/listings/${id}`);
-}));
+});
 
 //Delete Route
-app.delete('/listings/:id' , wrapAsync (async (req, res) => {
+app.delete('/listings/:id' , async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing); 
         res.redirect('/listings'); 
-}));
-
-//Error handling
-// app.use((err,req,res,next) =>  {
-//     res.send("something went wrong");
-// });
-
-
-app.all('*', (req, res, next) => {
-    next(new ExpressError(404, "Page Not Found"));
 });
 
-app.use((err,req,res,next) => {
-    let { statusCode=500, message="something went wrong?"} = err;
-    res.status(statusCode).render("error.ejs" , {message});
+//Reviews Route
+//Post
+// app.post('/listings/:id/reviews', async (req, res) => {
+//     let listing = Listing.findById(req.params.id);
+//     let newReview = new Review(req.body.review);
+
+//     listing.reviews.push(newReview);
+    
+//     await newReview.save();
+//     await listing.save();
+
+//     console.log("new review saved");
+//     res.send("new review saved");
+    
+
+
+// })
+
+app.post('/listings/:id/reviews', async (req, res) => {
+    try {
+        const listingId = req.params.id;
+        const newReview = new Review(req.body);
+        await newReview.save();
+
+        const listing = await Listing.findById(listingId).populate('reviews');
+
+        if (!listing) {
+            return res.status(404).send('Listing not found');
+        }
+
+        // Ensure the reviews array is initialized
+        if (!Array.isArray(listing.reviews)) {
+            listing.reviews = [];
+        }
+
+        listing.reviews.push(newReview);
+        await listing.save();
+
+        res.redirect(`/listings/${listing.id}`)
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong');
+    }
 });
+
+
 
 
 
