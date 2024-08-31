@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    /* background-color: aqua; */
 }
 
 .navbar {
@@ -37,6 +38,7 @@
 }
 
 .f-info {
+    width: 100%;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -49,6 +51,12 @@
     text-align: center;
     justify-items: center;
 }
+
+.footer-main {
+    width: 100%;
+}
+
+
 
 .f-info-socials {
     width: 100%;
@@ -72,6 +80,8 @@ html, body {
 
 .container {
     flex: 1;
+    /* padding: 0;
+    margin: 0; */
 }
 
 .btn-clr {
@@ -79,9 +89,19 @@ html, body {
     border: none !important;
 }
 
-footer {
+.footer-main {
+    /* margin-top: auto !important; */
+    /* position: absolute;
+    bottom: 0 !important;
+    left: 0;
     width: 100%;
-}
+    margin: 0 !important;
+    padding: 0% !important; */
+    /* padding: 20px; */
+    /* box-sizing: border-box; */
+    /* bottom: 0; */
+    
+  }
 
 
 .f-info-socials i {
@@ -99,12 +119,18 @@ footer {
     text-decoration: underline;
 }
 
+.footer-main {
+ margin-top: auto !important;
+}
+
 /* Cards */
-.card {
+.listing-card {
     border: none !important;
     border-bottom : 2rem;
    
 }
+
+
 
 /* .card:hover .listing-linkk{
     transform: rotateY('-180deg');
@@ -165,4 +191,21 @@ footer {
 .btndiv {
     display: flex;
     gap: 2vh;
+}
+
+/* Rating  */ 
+
+.rating {
+    display: flex;
+    gap: 10vw;
+}
+
+.card {
+    padding: 2%;
+}
+
+.review-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

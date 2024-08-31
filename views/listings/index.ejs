@@ -1,15 +1,79 @@
 <% layout("/layouts/boilerplate") %>
+
+<style>
+    #filters{
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+
+    .filter {
+       margin-right: 2rem;
+       text-align: center;
+       align-items: center;
+       justify-content: center;
+       opacity: 0.7;
+    }
+
+    .filter:hover{
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .img{
+        /* margin-left: 1rem; */
+    }
+</style>
+
 <body>
-    <h1>All Listings</h1>
+    <div id="filters">
+        <div class="filter">
+           <div class="img"> <i class="fa-solid fa-fire"></i></div>
+            <p>Trending</p>
+        </div>
+
+        
+            <div class="filter">
+               <div class="img"> <i class="fa-solid fa-bed"></i></div>
+                <p>Rooms</p>
+            </div>
+
+            <div class="filter">
+                <div class="img"> <i class="fa-solid fa-campground"></i></div>
+                 <p>Camping</p>
+             </div>
+
+             <div class="filter">
+                <div class="img"> <i class="fa-solid fa-tractor"></i></div>
+                 <p>Farms</p>
+             </div>
+
+             <div class="filter">
+                <div class="img"> <i class="fa-solid fa-mountain-city"></i></div>
+                 <p>Iconic cities</p>
+             </div>
+
+             <div class="filter">
+                <div class="img"> <i class="fa-brands fa-fort-awesome"></i></div>
+                 <p>Castles</p>
+             </div>
+
+             <div class="filter">
+                <div class="img"> <i class="fa-solid fa-person-swimming"></i></div>
+                 <p>Amazin Pools</p>
+             </div>
+            
+    </div>
 
     <!-- <form method="get" action="/listings/new" >
         <button>Add Listing</button>
     </form> -->
 
-   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1">
+   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1 mt-3">
     <% for(let listing of allListings) { %>
             <a href="/listings/<%= listing._id %>" class="listing-link">
-                <div class="card col "  ">
+                <div class="card col listing-card ">
                     <img src="<%= listing.image %>" class="card-img-top" alt="listing_img" style="height: 20rem;">
                     <div class="card-body">
                         <div class="card-img-overlay">
