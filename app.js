@@ -87,9 +87,6 @@ passport.deserializeUser(User.deserializeUser());
 
 
 
-app.get('/', (req, res) => {
-    res.send("working");
-});
 
 // // Index Route
 // app.get('/listings', async (req, res) => {
