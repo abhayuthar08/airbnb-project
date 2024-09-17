@@ -1,6 +1,6 @@
-if(process.env.NODE_ENV != "production") {
-    require("dotenv").config();
-}
+// if(process.env.NODE_ENV != "production") {
+//     require("dotenv").config();
+// }
 
 const express = require('express');
 const app = express();
@@ -18,6 +18,13 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user.js');
 const MongoStore = require('connect-mongo');
 
+const QRCode = require('qrcode');
+const { v4: uuidv4 } = require('uuid');
+const PDFDocument = require('pdfkit');
+const Booking = require('./models/booking.js'); // Import your Booking model
+
+
+
 const listingsRouter = require('./routes/listing.js')
 const reviewsRouter = require('./routes/review.js')
 const userRouter = require('./routes/user.js')
@@ -33,8 +40,8 @@ const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-const dbUrl = process.env.ATLASDB_URL;
+const MONGO_URL = "mongodb://127.0.0.1:27017/ticketsystem";
+// const dbUrl = process.env.ATLASDB_URL;
 
 
 main()
@@ -46,24 +53,24 @@ main()
     });
 
 async function main() {
-    await mongoose.connect(dbUrl);
+    await mongoose.connect(MONGO_URL);
 }
 
-const store = MongoStore.create({
-    mongoUrl : dbUrl,
-    crypto : {
-        secret : process.env.SECRET
-    },
-    touchAfter : 24 * 3600,
-});
+// const store = MongoStore.create({
+//     mongoUrl : dbUrl,
+//     crypto : {
+//         secret : process.env.SECRET
+//     },
+//     touchAfter : 24 * 3600,
+// });
 
-store.on("error" , () => {
-    console.log("ERROR in MONGO SESSION STORE",err);
-})
+// store.on("error" , () => {
+//     console.log("ERROR in MONGO SESSION STORE",err);
+// })
 
 const sessionOptions = {
-    store,
-    secret : process.env.SECRET ,
+    // store,
+    secret : 'snlshlo' ,
     resave : false,
     saveUninitialized : true,
     cookie : {
@@ -175,6 +182,8 @@ app.get('/demousers' , async (req , res) => {
 app.use('/listings' , listingsRouter);
 app.use('/listings/:id/reviews' , reviewsRouter);
 app.use('/' , userRouter);
+
+
 
 // app.post('/listings/:id/reviews', async (req, res) => {
 //     try {

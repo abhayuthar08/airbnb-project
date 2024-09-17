@@ -1,0 +1,73 @@
+<% layout("/layouts/boilerplate") %>
+
+<body>
+    <div class="container mt-5">
+        <h2>Book a Ticket for <%= listing.title %></h2>
+        <form action="/listings/<%= listing._id %>/book" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="museumName" class="form-label">Museum Name</label>
+                <input type="text" class="form-control" id="museumName" name="museumName" value="<%= listing.title %>" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="members" class="form-label">Number of Members</label>
+                <input type="number" class="form-control" id="members" name="members" required>
+                <div class="invalid-feedback">Please enter the number of members.</div>
+            </div>
+            <div class="mb-3">
+                <label for="visitDate" class="form-label">Visit Date</label>
+                <input type="date" class="form-control" id="visitDate" name="visitDate" required>
+                <div class="invalid-feedback">Please choose a date for your visit.</div>
+            </div>
+            <div class="mb-3">
+                <label for="userName" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="userName" name="userName" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+            </div>
+            <div class="mb-3">
+                <label for="userNumber" class="form-label">Your Mobile Number</label>
+                <input type="tel" class="form-control" id="userNumber" name="userNumber" pattern="\d{10}" maxlength="10" inputmode="numeric" required>
+                <div class="invalid-feedback">Please enter a valid 10-digit mobile number containing only numbers.</div>
+            </div>
+            <button type="submit" class="btn btn-dark">Book Ticket</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })();
+
+        // Set min date for the visit date field to today
+        document.addEventListener('DOMContentLoaded', function () {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('visitDate').setAttribute('min', today);
+        });
+
+        // JavaScript to restrict input to exactly 10 digits
+        document.getElementById('userNumber').addEventListener('input', function (event) {
+            var input = event.target;
+            var value = input.value;
+            // Remove non-digit characters and limit to 10 digits
+            value = value.replace(/\D/g, '').slice(0, 10);
+            input.value = value;
+        });
+    </script>
+</body>
+</html>

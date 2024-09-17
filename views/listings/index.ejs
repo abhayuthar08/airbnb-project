@@ -1,7 +1,43 @@
 <% layout("/layouts/boilerplate") %>
 
+<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<!-- gsap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <style>
-    #filters{
+    body {
+        overflow: hidden; /* Prevent scrolling while splash screen is visible */
+    }
+
+    #splashScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #EFEFEF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    #mainContent {
+        display: none; /* Hide main content initially */
+    }
+
+    .loaderPage {
+        /* Add styles for the loader if needed */
+    }
+
+    .loaderPage.hidden {
+        display: none; /* Hide loader when loading is complete */
+    }
+    
+    /* Additional styles */
+    #filters {
         margin-top: 1rem;
         display: flex;
         flex-wrap: wrap;
@@ -9,87 +45,215 @@
     }
 
     .filter {
-       margin-right: 2rem;
-       text-align: center;
-       align-items: center;
-       justify-content: center;
-       opacity: 0.7;
+        margin-right: 2rem;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.7;
     }
 
-    .filter:hover{
+    .filter:hover {
         opacity: 1;
         cursor: pointer;
     }
 
-    .img{
+    .img {
         /* margin-left: 1rem; */
+    }
+
+    .abc {
+        margin-left: 10px;
+    }
+
+    #splashScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #EFEFEF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Ensure it's on top of other content */
+    }
+
+    /* Loader Page */
+    .loaderPage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    /* Wrapper Styles */
+    .wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background-color: #EFEFEF;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Content Styles */
+    .content {
+        position: absolute;
+        width: 100%;
+        bottom: 25%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Equivalent to gap-14 */
+        padding: 0 1rem; /* Equivalent to px-3 */
+        justify-content: space-between;
+    }
+
+    /* Responsive Flex Direction */
+    @media (min-width: 1024px) {
+        .content {
+            flex-direction: row;
+            padding: 0 2.5rem; /* Equivalent to lg:px-10 */
+        }
+    }
+
+    /* Text Container */
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem; /* Equivalent to gap-1 */
+        font-size: 8vmax;
+        line-height: 1;
+    }
+
+    /* Overflow Hidden */
+    .overflow-hidden {
+        overflow: hidden;
+    }
+
+    /* Main Text Styles */
+    .text {
+        font-size: 8vmax;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    /* Count Text Styles */
+    #count {
+        font-size: 7vmax;
+        font-weight: bold;
+    }
+
+    /* Adjust Position of Count */
+    .count-container {
+        display: flex;
+        align-items: flex-end;
+        font-size: 7vmax;
     }
 </style>
 
 <body>
-    <div id="filters">
-        <div class="filter">
-           <div class="img"> <i class="fa-solid fa-fire"></i></div>
-            <p>Trending</p>
-        </div>
-
-        
-            <div class="filter">
-               <div class="img"> <i class="fa-solid fa-bed"></i></div>
-                <p>Rooms</p>
+    <!-- Splash Screen -->
+    <div id="splashScreen">
+        <div class="loaderPage">
+            <div class="wrapper">
+                <div class="content">
+                    <div class="text-container">
+                        <div class="overflow-hidden"><h5 class="text">let's</h5></div>
+                        <div class="overflow-hidden"><h5 class="text">Explore</h5></div>
+                        <div class="overflow-hidden"><h5 class="text">together</h5></div>
+                    </div>
+                    <div class="count-container">
+                        <h5 id="count">0%</h5>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+    
 
-            <div class="filter">
-                <div class="img"> <i class="fa-solid fa-campground"></i></div>
-                 <p>Camping</p>
-             </div>
 
-             <div class="filter">
-                <div class="img"> <i class="fa-solid fa-tractor"></i></div>
-                 <p>Farms</p>
-             </div>
+    <!-- Main Content -->
+    <div id="mainContent">
+        <h3 class="abc">All Museums:</h3>
 
-             <div class="filter">
-                <div class="img"> <i class="fa-solid fa-mountain-city"></i></div>
-                 <p>Iconic cities</p>
-             </div>
-
-             <div class="filter">
-                <div class="img"> <i class="fa-brands fa-fort-awesome"></i></div>
-                 <p>Castles</p>
-             </div>
-
-             <div class="filter">
-                <div class="img"> <i class="fa-solid fa-person-swimming"></i></div>
-                 <p>Amazin Pools</p>
-             </div>
-            
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1 mt-3">
+            <% for(let listing of allListings) { %>
+                <a href="/listings/<%= listing._id %>" class="listing-link">
+                    <div class="card col listing-card">
+                        <img src="<%= listing.image %>" class="card-img-top" alt="listing_img" style="height: 30rem;">
+                        <div class="card-body">
+                            <div class="card-img-overlay">
+                            </div> <br>
+                            <p class="card-text">
+                                <b><%= listing.title %> </b> <br />
+                                <%= listing.location %> <br>
+                                &#8377; <%= listing.ticketfees %> <br />
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            <% } %>
+        </div>
     </div>
 
-    <!-- <form method="get" action="/listings/new" >
-        <button>Add Listing</button>
-    </form> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1 mt-3">
-    <% for(let listing of allListings) { %>
-            <a href="/listings/<%= listing._id %>" class="listing-link">
-                <div class="card col listing-card ">
-                    <img src="<%= listing.image %>" class="card-img-top" alt="listing_img" style="height: 20rem;">
-                    <div class="card-body">
-                        <div class="card-img-overlay">
-                         </div>
-                      <p class="card-text"> <b><%= listing.title %> </b> <br />
-                       &#8377; <%= listing.price%>/night <br />
-                    </div>
-            
-            </div>
-            </a>
-        <% } %>
-   </div>
-    
+    <script>
+        function loadingpage() {
+            let tl = gsap.timeline();
 
+            document.addEventListener("DOMContentLoaded", function () {
+                const loaderCount = document.querySelector(".loaderPage #count");
 
-   
-    
+                tl.from(".loaderPage .content .text", {
+                    y: 100,
+                    duration: 0.8,
+                    stagger: 0.2,
+                });
+
+                tl.to(
+                    {},
+                    {
+                        delay: 0.8,
+                        duration: 0.4,
+                        ease: "none",
+                        onUpdate: function () {
+                            const progress = Math.round(this.progress() * 10) * 10;
+                            loaderCount.textContent = `${progress}%`;
+                        },
+                        onComplete: function () {
+                            loaderCount.textContent = "100%";
+                            document.querySelector(".loaderPage .wrapper").style.borderRadius = "10px";
+
+                            tl.to(".loaderPage .wrapper", {
+                                onStart: () => {
+                                    gsap.to(".loaderPage .content .text", {
+                                        y: -120,
+                                        duration: 0.7,
+                                        stagger: 0.1,
+                                    });
+                                },
+                                top: "70%",
+                                duration: 1.3,
+                                height: "0",
+                                ease: "power3.in",
+                                width: "85vw",
+                                onComplete: () => {
+                                    document.querySelector("#splashScreen").style.display = "none";
+                                    document.querySelector("#mainContent").style.display = "block"; // Show main content
+                                    document.body.style.overflow = "auto"; // Re-enable scrolling
+                                },
+                            });
+                        },
+                    }
+                );
+            });
+        }
+        loadingpage();
+    </script>
 </body>
 </html>
+

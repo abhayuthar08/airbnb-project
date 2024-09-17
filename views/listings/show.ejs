@@ -1,37 +1,139 @@
 <% layout("/layouts/boilerplate") %>
 
 <body>
-    <div class="row mt-3">
-        <div class="col-10 offset-3"><h3>Listing Details:</h3> </div>
-    <div class="card col-12 offset-3" style="width: 50rem;">
-        <br />
+    <div class="row mt-3 pt-3">
+        <div class="col-10 offset-3 mt-2 mb-3">
+            <h3><b>Museum Details:</b></h3>
+        </div>
+        <div class="card col-12 offset-3" style="width: 50rem;">
+            <br />
             <img src="<%= listing.image %>" class="card-img-top show-img" style="height: 50vh;" alt="...">
             <div class="card-body">
-              <p class="card-text">
-                <br />
-                <b><%= listing.title %></b> <br />
-                <%= listing.description %> <br />
-                &#8377; <%= listing.price.toLocaleString("en-IN") %>/night <br />
-                <%= listing.location %> <br />
-                <%= listing.country %> <br />
-             </p>
+                <p class="card-text">
+                    <br />
+                    <b>Name</b> :<b><i>&nbsp;<%= listing.title %></i></b> <br />
+                    <b>Location</b> :&nbsp;<%= listing.location %> <br />
+                    <b>Description</b> :&nbsp;<%= listing.description %> <br />
+                    <b>Ticket Fees</b> :&nbsp;&#8377; <%= listing.ticketfees %> <br />
+                    <b>Opening Time</b> :&nbsp;<%= listing.openingtime %> <br />
+                    <b>Closing Time</b> :&nbsp;<%= listing.closingtime %> <br />
+                    <b>Rating</b> :&nbsp; <%= listing.ratings %> <br />
+                    <b>History</b> :&nbsp; <%= listing.history %> <br />
+                    <b>Related Info</b> :&nbsp; <%= listing.relatedinfo %> <br />
+                </p>
             </div>
-          </div>
-   
-    
-        
-        
+        </div>
     </div>
-     <br />
-    <div class="col-2 offset-3 btndiv mt-3">
-        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark btns">Edit </a>
-    <br /> <br />
-    <form method="POST" action="/listings/<%= listing._id %>/?_method=DELETE">
-        <button class="btn btn-dark btns">Delete</button>
-    </form>
+    <br />
+    <% if (currUser && currUser.username === "abhi1") { %>
+        <div class="col-2 offset-3 btndiv mt-3">
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark btns">Edit </a>
+            <br /><br />
+            <form method="POST" action="/listings/<%= listing._id %>/?_method=DELETE">
+                <button class="btn btn-dark btns">Delete</button>
+            </form>
+        </div>
+    <% } %>
+
+    <% if (currUser) { %>
+        <div class="col-8 offset-3">
+            <br />
+            <hr />
+            <br />
+            <h4><b>Leave a Review</b></h4>
+            <form action="/listings/<%= listing._id %>/reviews" method="post" class="needs-validation" novalidate>
+                <div>
+                    <label for="rating" class="form-label">Rating</label>
+                    <fieldset class="starability-slot">
+                        <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+                        <input type="radio" id="first-rate1" name="rating" value="1" />
+                        <label for="first-rate1" title="Terrible">1 star</label>
+                        <input type="radio" id="first-rate2" name="rating" value="2" />
+                        <label for="first-rate2" title="Not good">2 stars</label>
+                        <input type="radio" id="first-rate3" name="rating" value="3" />
+                        <label for="first-rate3" title="Average">3 stars</label>
+                        <input type="radio" id="first-rate4" name="rating" value="4" />
+                        <label for="first-rate4" title="Very good">4 stars</label>
+                        <input type="radio" id="first-rate5" name="rating" value="5" />
+                        <label for="first-rate5" title="Amazing">5 stars</label>
+                    </fieldset>
+                </div>
+                <div>
+                    <br />
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea name="comment" rows="5" class="form-control" id="comment" required></textarea>
+                    <div class="invalid-feedback">Please enter a suitable comment...</div>
+                </div>
+                <br />
+                <button class="btn btn-dark btns">Submit</button>
+                <br /><br />
+            </form>
+        </div>
+    <% } %>
+
+    <div class="col-8 offset-3">
+        <hr /><br />
+        <h3>All Reviews</h3><br />
+        <% if (listing.reviews.length > 0) { %>
+            <div class="row">
+                <div class="review-card">
+                    <% for (let review of listing.reviews) { %>
+                        <div class="card col-5 ms-3 mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">@<%= review.author.username %></h5>
+                                <p class="starability-result" data-rating=<%= review.rating %>>Rated: <%= review.rating %> stars</p>
+                                <p class="card-text"><%= review.comment %></p>
+                            </div>
+                            <% if (currUser && currUser._id.equals(review.author._id)) { %>
+                                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+                                    <button class="mb-2 mt-2 btn btn-sm btn-dark">Delete</button>
+                                </form>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        <% } else { %>
+            <p>No reviews yet.</p>
+        <% } %> <br><hr>
     </div>
 
-           
+    <div class="col-8 offset-3">
+        <br><h3>Wanna Book a Ticket ??!</h3> <br>
+        <a href="/listings/<%= listing._id %>/book" class="btn btn-dark btns">Book</a>
     </div>
+
+    <!-- <div id="map" style="height: 400px; width: 100%;"></div> -->
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var location = "<%= listing.location %>";
+            var geocodeUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`;
+
+            fetch(geocodeUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        var latitude = data[0].lat;
+                        var longitude = data[0].lon;
+
+                        var map = L.map('map').setView([latitude, longitude], 13);
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 19,
+                            attribution: '© OpenStreetMap contributors'
+                        }).addTo(map);
+
+                        var marker = L.marker([latitude, longitude]).addTo(map);
+                        marker.bindPopup(`<b>${location}</b>`).openPopup();
+                    } else {
+                        alert("Location not found!");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching location data:", error);
+                    alert("Unable to retrieve location.");
+                });
+        });
+    </script> -->
 </body>
 </html>
